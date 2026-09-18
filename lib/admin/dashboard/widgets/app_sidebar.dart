@@ -5,7 +5,13 @@ import 'package:medicalstore/core/constants/responsive.dart';
 import 'package:medicalstore/core/theme/appcolor.dart';
 
 class AppSidebar extends StatelessWidget {
-  const AppSidebar({super.key});
+  final int selectedindex;
+  final ValueChanged<int> onItemSelected;
+  const AppSidebar({
+    super.key,
+    required this.selectedindex,
+    required this.onItemSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +19,7 @@ class AppSidebar extends StatelessWidget {
       width: 250,
       color: AppColors.textDark,
       child: ListView(
+        physics: AlwaysScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
           // ================= HEADER =================
@@ -64,44 +71,35 @@ class AppSidebar extends StatelessWidget {
           ),
 
           // ================= DASHBOARD =================
-          _menuItem(icon: LucideIcons.grid, title: "Dashboard"),
-
+          _menuItem(icon: LucideIcons.grid, title: "Dashboard", index: 0),
           // ================= INVENTORY =================
           _sectionTitle("Inventory"),
-
-          _menuItem(icon: LucideIcons.box, title: "Medicines"),
-
-          _menuItem(icon: LucideIcons.tag, title: "Categories"),
-
-          _menuItem(icon: LucideIcons.building, title: "Companies"),
-
-          _menuItem(icon: LucideIcons.truck, title: "Suppliers"),
+          _menuItem(icon: LucideIcons.box, title: "Medicines", index: 1),
+          _menuItem(icon: LucideIcons.tag, title: "Categories", index: 2),
+          _menuItem(icon: LucideIcons.building, title: "Companies", index: 3),
+          _menuItem(icon: LucideIcons.truck, title: "Suppliers", index: 4),
 
           // ================= TRANSACTIONS =================
           _sectionTitle("Transactions"),
 
-          _menuItem(icon: LucideIcons.shoppingCart, title: "Purchases"),
-
-          _menuItem(icon: LucideIcons.receipt, title: "Sales"),
-
-          _menuItem(icon: LucideIcons.userCheck, title: "Customers"),
+          _menuItem(
+            icon: LucideIcons.shoppingCart,
+            title: "Purchases",
+            index: 5,
+          ),
+          _menuItem(icon: LucideIcons.receipt, title: "Sales", index: 6),
+          _menuItem(icon: LucideIcons.userCheck, title: "Customers", index: 7),
 
           // ================= MANAGEMENT =================
           _sectionTitle("Management"),
-
-          _menuItem(icon: LucideIcons.archive, title: "Inventory"),
-
-          _menuItem(icon: LucideIcons.wallet, title: "Expenses"),
-
-          _menuItem(icon: LucideIcons.creditCard, title: "Payments"),
-
+          _menuItem(icon: LucideIcons.archive, title: "Inventory", index: 8),
+          _menuItem(icon: LucideIcons.wallet, title: "Expenses", index: 9),
+          _menuItem(icon: LucideIcons.creditCard, title: "Payments", index: 10),
           _sectionTitle("Analytics"),
-
-          _menuItem(icon: LucideIcons.barChart3, title: "Reports"),
-
+          _menuItem(icon: LucideIcons.barChart3, title: "Reports", index: 11),
           _sectionTitle("System"),
-          _menuItem(icon: LucideIcons.users, title: "Users/Staff"),
-          _menuItem(icon: LucideIcons.settings, title: "Settings"),
+          _menuItem(icon: LucideIcons.users, title: "Users/Staff", index: 12),
+          _menuItem(icon: LucideIcons.settings, title: "Settings", index: 13),
 
           // ================= SIGN OUT =================
           const SizedBox(height: 20),
@@ -136,15 +134,28 @@ class AppSidebar extends StatelessWidget {
   }
 
   // ================= MENU ITEM =================
-  Widget _menuItem({required IconData icon, required String title}) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-      leading: Icon(icon, color: AppColors.white),
-      title: Text(
-        title,
-        style: Apptextstyle.medium.copyWith(color: AppColors.white),
+  Widget _menuItem({
+    required IconData icon,
+    required String title,
+    required int index,
+  }) {
+    final bool indexSelected = selectedindex == index;
+    return Container(
+  
+      decoration: BoxDecoration(
+        color: indexSelected ? AppColors.primary : Colors.transparent,
       ),
-      onTap: () {},
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+        leading: Icon(icon, color: AppColors.white),
+        title: Text(
+          title,
+          style: Apptextstyle.medium.copyWith(color: AppColors.white),
+        ),
+        onTap: () {
+          onItemSelected(index);
+        },
+      ),
     );
   }
 }

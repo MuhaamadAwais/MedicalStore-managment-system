@@ -3,69 +3,80 @@ import 'package:medicalstore/core/constants/apptextstyle.dart';
 import 'package:medicalstore/core/constants/responsive.dart';
 import 'package:medicalstore/core/theme/appcolor.dart';
 
-class AppTopbar extends StatelessWidget implements PreferredSizeWidget {
-  const AppTopbar({super.key});
-
-  @override
-  Size get preferredSize => const Size.fromHeight(80);
+class AppTopbar extends StatelessWidget {
+  final String namebar;
+  const AppTopbar({super.key, required this.namebar});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: Responsive.heightpercentage(context, 0.115),
       color: AppColors.white,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Dashboard", style: Apptextstyle.large),
+          SizedBox(width: Responsive.widthpercentage(context, 0.01)),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(namebar, style: Apptextstyle.large),
 
-                const SizedBox(height: 4),
+              SizedBox(height: Responsive.heightpercentage(context, 0.001)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("Home", style: Apptextstyle.medium.copyWith()),
 
-                Row(
-                  children: [
-                    Text(
-                      "Home",
-                      style: Apptextstyle.medium.copyWith(
-                        color: AppColors.primary,
-                      ),
+                  SizedBox(width: Responsive.widthpercentage(context, 0.005)),
+
+                  const SizedBox(
+                    width: 12,
+                    height: 16,
+                    child: Center(
+                      child: Icon(Icons.arrow_forward_ios, size: 10),
                     ),
+                  ),
 
-                    const SizedBox(width: 6),
+                  SizedBox(width: Responsive.widthpercentage(context, 0.005)),
 
-                    const Icon(Icons.arrow_forward_ios, size: 12),
-
-                    const SizedBox(width: 6),
-
-                    Text("Dashboard", style: Apptextstyle.small),
-                  ],
-                ),
-              ],
-            ),
+                  Text(
+                    namebar,
+                    style: Apptextstyle.small.copyWith(
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
 
-          const SizedBox(width: 30),
+          Spacer(),
 
           Container(
-            width: Responsive.widthpercentage(context, 0.30),
-            height: 50,
+            width: Responsive.widthpercentage(context, 0.25),
+            height: Responsive.heightpercentage(context, 0.075),
             decoration: BoxDecoration(
               color: AppColors.background,
               borderRadius: BorderRadius.circular(15),
               border: Border.all(width: 1, color: AppColors.border),
             ),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: "Search anything",
-                prefixIcon: const Icon(Icons.search),
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(vertical: 15),
+            child: Center(
+              child: TextField(
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(width: 1, color: AppColors.primary),
+                  ),
+                  hintText: "Search anything",
+                  prefixIcon: const Icon(Icons.search),
+                  border: InputBorder.none,
+                ),
               ),
             ),
           ),
-          const SizedBox(width: 30),
+          SizedBox(width: Responsive.widthpercentage(context, 0.01)),
         ],
       ),
     );
